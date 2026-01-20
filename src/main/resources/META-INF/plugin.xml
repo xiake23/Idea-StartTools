@@ -1,0 +1,52 @@
+<idea-plugin>
+    <id>com.starttools.quickterminallauncher</id>
+    <name>Quick Terminal Launcher</name>
+    <vendor email="support@starttools.com" url="https://github.com/yourusername/quick-terminal-launcher">Start Tools</vendor>
+
+    <description><![CDATA[
+    A quick terminal launcher plugin for IntelliJ IDEA that adds a toolbar button to execute customizable commands.<br>
+    <br>
+    <strong>Features:</strong><br>
+    <ul>
+        <li>Quick launch button in the main toolbar</li>
+        <li>Customizable commands to execute</li>
+        <li>Default: Launch PowerShell terminal</li>
+        <li>Simple settings interface in Tools menu</li>
+        <li>Notification feedback for operations</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- 应用级服务:配置持久化 -->
+        <applicationService
+            serviceImplementation="com.starttools.quickterminallauncher.settings.TerminalLauncherSettings"/>
+        <!-- 设置页面:在设置-工具中显示 -->
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.starttools.quickterminallauncher.settings.TerminalLauncherConfigurable"
+            id="com.starttools.quickterminallauncher.settings.TerminalLauncherConfigurable"
+            displayName="Quick Terminal Launcher"/>
+        <!-- 通知组:用于显示插件消息 -->
+        <notificationGroup id="QuickTerminalLauncher"
+                           displayType="BALLOON"
+                           key="Quick Terminal Launcher"/>
+    </extensions>
+
+    <actions>
+        <!-- 快速启动终端按钮 -->
+        <action id="com.starttools.quickterminallauncher.LaunchTerminal"
+                class="com.starttools.quickterminallauncher.actions.LaunchTerminalAction"
+                text="Launch Terminal"
+                description="快速启动终端并执行配置的命令"
+                icon="AllIcons.Toolwindows.ToolWindowRun">
+            <!-- 添加到 Tools 菜单 -->
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <!-- 添加到主工具栏 -->
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+            <!-- 添加到运行工具栏组 -->
+            <add-to-group group-id="NavBarToolBar" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
